@@ -4,7 +4,22 @@ let board = [
   ['W', '', 'W']
 ];
 
+const goalBoard = [
+  ['W', '', 'W'],
+  ['', '', ''],
+  ['B', '', 'B']
+];
+
 let selected = null;
+
+function boardsEqual(b1, b2) {
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 3; c++) {
+      if (b1[r][c] !== b2[r][c]) return false;
+    }
+  }
+  return true;
+}
 
 function drawBoard() {
   const boardDiv = document.getElementById('board');
@@ -20,6 +35,11 @@ function drawBoard() {
   }
   html += '</table>';
   boardDiv.innerHTML = html;
+  
+  // Chequear si ganaste
+  if (boardsEqual(board, goalBoard)) {
+    setTimeout(() => alert('¡Ganaste!'), 100);
+  }
 }
 
 function isValidLMove(from, to) {
@@ -33,14 +53,13 @@ function handleClick(row, col) {
 
   if (selected) {
     if (cell === '' && isValidLMove(selected, { row, col })) {
-      // Mover caballo
       board[row][col] = board[selected.row][selected.col];
       board[selected.row][selected.col] = '';
       selected = null;
     } else if (cell !== '') {
-      selected = { row, col }; // Selecciona otro caballo
+      selected = { row, col };
     } else {
-      selected = null; // Reinicia si clic en vacío no válido
+      selected = null;
     }
   } else {
     if (cell !== '') {
