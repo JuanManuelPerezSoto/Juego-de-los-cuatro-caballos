@@ -39,7 +39,7 @@ function drawBoard() {
   boardDiv.innerHTML = html;
   
   if (boardsEqual(board, goalBoard)) {
-    document.getElementById('message').textContent = '¡Ganaste!';
+    document.getElementById('message').textContent = '¡Valois Lo Succiona!';
   } else {
     document.getElementById('message').textContent = '';
   }
