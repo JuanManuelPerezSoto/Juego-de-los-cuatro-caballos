@@ -47,8 +47,38 @@ function handleClick(row, col) {
       selected = { row, col };
     }
   }
+  if (isWinningBoard()) {
+    setTimeout(() => {
+      alert("¡Ganaste!");
+      if (confirm("¿Quieres intentarlo de nuevo?")) {
+        board = [
+          ['B', '', 'B'],
+          ['', '', ''],
+          ['W', '', 'W']
+        ];
+      }
+      drawBoard();
+    }, 100); // pequeño retraso para que se vea el último movimiento
+    return;
+  }
 
   drawBoard();
 }
 
 drawBoard();
+const finalBoard = [
+  ['W', '', 'W'],
+  ['', '', ''],
+  ['B', '', 'B']
+];
+
+function isWinningBoard() {
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 3; col++) {
+      if (board[row][col] !== finalBoard[row][col]) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
