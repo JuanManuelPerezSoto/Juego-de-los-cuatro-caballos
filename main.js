@@ -1,8 +1,10 @@
+// Variables globales
 let boardSize = 3;
 let board = [];
 let goalBoard = [];
 let selected = null;
 
+// Funciones principales
 function generateBoard(size) {
   let newBoard = [];
   for (let r = 0; r < size; r++) {
@@ -11,7 +13,6 @@ function generateBoard(size) {
       newBoard[r][c] = '';
     }
   }
-  // Caballos en esquinas
   newBoard[0][0] = 'B';
   newBoard[0][size - 1] = 'B';
   newBoard[size - 1][0] = 'W';
@@ -27,7 +28,6 @@ function generateGoalBoard(size) {
       newBoard[r][c] = '';
     }
   }
-  // Caballos en esquinas invertidos
   newBoard[0][0] = 'W';
   newBoard[0][size - 1] = 'W';
   newBoard[size - 1][0] = 'B';
@@ -101,16 +101,18 @@ function resetBoard() {
   drawBoard();
 }
 
+// Hacer funciones globales para que puedan usarse en HTML y consola
+window.drawBoard = drawBoard;
+window.generateBoard = generateBoard;
+window.resetBoard = resetBoard;
+window.handleClick = handleClick;
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Inicializar tablero
   board = generateBoard(boardSize);
   goalBoard = generateGoalBoard(boardSize);
   drawBoard();
 
-  // Evento reiniciar
   document.getElementById('resetBtn').addEventListener('click', resetBoard);
-
-  // Evento cambiar tamaño
   document.getElementById('changeSizeBtn').addEventListener('click', () => {
     const sizeInput = document.getElementById('boardSize');
     let newSize = parseInt(sizeInput.value);
