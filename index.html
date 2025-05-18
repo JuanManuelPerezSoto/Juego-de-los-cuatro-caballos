@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Juego de los Cuatro Caballos</title>
   <script src="main.js" defer></script>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    td {
+      width: 60px;
+      height: 60px;
+      border: 1px solid #000;
+      text-align: center;
+      font-size: 30px;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <h1>Juego de los Cuatro Caballos</h1>
   <div id="board"></div>
+  <div id="message" style="margin-top: 20px; font-size: 24px; color: green;"></div>
 </body>
 </html>
