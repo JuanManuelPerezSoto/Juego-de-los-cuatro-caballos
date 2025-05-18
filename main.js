@@ -14,11 +14,13 @@ const goalBoard = [
 
 let selected = null;
 
-function resetBoard() {
-  board = JSON.parse(JSON.stringify(initialBoard));
-  selected = null;
-  document.getElementById('message').textContent = '';
-  drawBoard();
+function boardsEqual(b1, b2) {
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 3; c++) {
+      if (b1[r][c] !== b2[r][c]) return false;
+    }
+  }
+  return true;
 }
 
 function drawBoard() {
@@ -42,6 +44,47 @@ function drawBoard() {
     document.getElementById('message').textContent = '';
   }
 }
+
+function isValidLMove(from, to) {
+  const dx = Math.abs(from.row - to.row);
+  const dy = Math.abs(from.col - to.col);
+  return (dx === 2 && dy === 1) || (dx === 1 && dy === 2);
+}
+
+function handleClick(row, col) {
+  const cell = board[row][col];
+
+  if (selected) {
+    if (cell === '' && isValidLMove(selected, { row, col })) {
+      board[row][col] = board[selected.row][selected.col];
+      board[selected.row][selected.col] = '';
+      selected = null;
+    } else if (cell !== '') {
+      selected = { row, col };
+    } else {
+      selected = null;
+    }
+  } else {
+    if (cell !== '') {
+      selected = { row, col };
+    }
+  }
+
+  drawBoard();
+}
+
+function resetBoard() {
+  board = JSON.parse(JSON.stringify(initialBoard));
+  selected = null;
+  document.getElementById('message').textContent = '';
+  drawBoard();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('resetBtn').addEventListener('click', resetBoard);
+});
+
+drawBoard();
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('resetBtn').addEventListener('click', resetBoard);
