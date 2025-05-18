@@ -1,24 +1,24 @@
-// Configura con los datos de tu proyecto Firebase
+// --- Inicialización Firebase ---
 const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_AUTH_DOMAIN",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_STORAGE_BUCKET",
-  messagingSenderId: "TU_MESSAGING_SENDER_ID",
-  appId: "TU_APP_ID"
+  apiKey: "AIzaSyAg72JSvaIDZU5-I_OMj0Lw7pNycJ6JWfE",
+  authDomain: "datos-el-juego-del-caballo.firebaseapp.com",
+  projectId: "datos-el-juego-del-caballo",
+  storageBucket: "datos-el-juego-del-caballo.firebasestorage.app",
+  messagingSenderId: "234873726884",
+  appId: "1:234873726884:web:534aac17fb1af3d9b10331",
+  measurementId: "G-6ZNNVMW3HR"
 };
 
-// Inicializar Firebase
 firebase.initializeApp(firebaseConfig);
-
-// Obtener referencia a Firestore
 const db = firebase.firestore();
 
+// --- Variables globales ---
 let boardSize = 3;
 let board = [];
 let goalBoard = [];
 let selected = null;
 
+// --- Generadores de tablero ---
 function generateBoard(size) {
   let newBoard = [];
   for (let r = 0; r < size; r++) {
@@ -49,6 +49,7 @@ function generateGoalBoard(size) {
   return newBoard;
 }
 
+// --- Comparar tableros ---
 function boardsEqual(b1, b2) {
   for (let r = 0; r < boardSize; r++) {
     for (let c = 0; c < boardSize; c++) {
@@ -58,6 +59,7 @@ function boardsEqual(b1, b2) {
   return true;
 }
 
+// --- Dibujar tablero ---
 function drawBoard() {
   const boardDiv = document.getElementById('board');
   let html = '<table>';
@@ -75,17 +77,24 @@ function drawBoard() {
 
   if (boardsEqual(board, goalBoard)) {
     document.getElementById('message').textContent = '¡Ganaste!';
+    guardarJugada({
+      fecha: new Date(),
+      resultado: "victoria",
+      tableroFinal: JSON.stringify(board)
+    });
   } else {
     document.getElementById('message').textContent = '';
   }
 }
 
+// --- Validar movimiento caballo ---
 function isValidLMove(from, to) {
   const dx = Math.abs(from.row - to.row);
   const dy = Math.abs(from.col - to.col);
   return (dx === 2 && dy === 1) || (dx === 1 && dy === 2);
 }
 
+// --- Manejar clic en celda ---
 function handleClick(row, col) {
   const cell = board[row][col];
 
@@ -94,6 +103,15 @@ function handleClick(row, col) {
       board[row][col] = board[selected.row][selected.col];
       board[selected.row][selected.col] = '';
       selected = null;
+
+      drawBoard();
+
+      // Guardar jugada tras movimiento válido
+      guardarJugada({
+        fecha: new Date(),
+        tablero: JSON.stringify(board),
+        movimiento: `De (${selected?.row},${selected?.col}) a (${row},${col})`
+      });
     } else if (cell !== '') {
       selected = { row, col };
     } else {
@@ -108,18 +126,32 @@ function handleClick(row, col) {
   drawBoard();
 }
 
+// --- Reiniciar tablero ---
 function resetBoard() {
   board = JSON.parse(JSON.stringify(generateBoard(boardSize)));
+  goalBoard = JSON.parse(JSON.stringify(generateGoalBoard(boardSize)));
   selected = null;
   document.getElementById('message').textContent = '';
   drawBoard();
 }
 
-window.drawBoard = drawBoard;
-window.generateBoard = generateBoard;
-window.resetBoard = resetBoard;
-window.handleClick = handleClick;
+// --- Guardar jugada en Firestore ---
+function guardarJugada(jugada) {
+  db.collection("jugadas").add(jugada)
+    .then(docRef => {
+      console.log("Jugada guardada con ID:", docRef.id);
+    })
+    .catch(error => {
+      console.error("Error guardando jugada:", error);
+    });
+}
 
+// --- Exponer funciones globales para onclick ---
+window.drawBoard = drawBoard;
+window.handleClick = handleClick;
+window.resetBoard = resetBoard;
+
+// --- Inicialización al cargar DOM ---
 document.addEventListener('DOMContentLoaded', () => {
   board = generateBoard(boardSize);
   goalBoard = generateGoalBoard(boardSize);
@@ -138,9 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
     goalBoard = generateGoalBoard(boardSize);
     selected = null;
     document.getElementById('message').textContent = '';
-    console.log('boardSize:', boardSize);
-    console.log('board:', board);
-    console.log('goalBoard:', goalBoard);
     drawBoard();
   });
 });
