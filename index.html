@@ -4,28 +4,6 @@
   <meta charset="UTF-8" />
   <title>Juego de los Cuatro Caballos</title>
   <script src="main.js"></script>
-  <script type="module">
-  // Importa App y Firestore:
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
-  import { getFirestore }    from "https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAg72JSvaIDZU5-I_OMj0Lw7p1NycJ6JWfE",
-    authDomain: "datos-el-juego-del-caballo.firebaseapp.com",
-    projectId: "datos-el-juego-del-caballo",
-    storageBucket: "datos-el-juego-del-caballo.firebasestorage.app",
-    messagingSenderId: "234873726884",
-    appId: "1:234873726884:web:534aac17fb1af3d9b10331",
-    measurementId: "G-6ZNNVMW3HR"
-  };
-
-  // Inicializa App y Firestore:
-  const app = initializeApp(firebaseConfig);
-  const db  = getFirestore(app);
-  // Exponla globalmente para main.js:
-  window.db = db;
-</script>
-
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
