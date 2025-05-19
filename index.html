@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <title>Juego de los Cuatro Caballos</title>
-  <!-- Firebase -->
+
+  <!-- Firebase SDKs: App & Realtime Database -->
   <script src="https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.7.3/firebase-database.js"></script>
-  <!-- Tu script de Firebase y registro de visitas -->
+  
   <script>
-    // 1) Reemplaza estos valores con los de tu proyecto
+    // 1) Reemplaza estos valores con la configuración de tu proyecto Firebase:
     const firebaseConfig = {
       apiKey: "TU_API_KEY",
       authDomain: "TU_PROYECTO.firebaseapp.com",
-      databaseURL: "https://TU_PROYECTO.firebaseio.com",
+      databaseURL: "https://TU_PROYECTO-default-rtdb.firebaseio.com",
       projectId: "TU_PROYECTO",
       storageBucket: "TU_PROYECTO.appspot.com",
       messagingSenderId: "TU_MESSAGING_SENDER_ID",
@@ -20,26 +21,24 @@
     };
 
     // 2) Inicializa Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const db  = firebase.database();
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
 
-    // 3) Función para registrar una visita
+    // 3) Función para registrar cada visita
     function registrarVisita() {
-      db.ref('visits')  // nodo "visits"
-        .push({
-          timestamp: firebase.database.ServerValue.TIMESTAMP
-        })
-        .then(() => console.log("Visita registrada"))
-        .catch(e => console.error("Error al registrar visita:", e));
+      db.ref('visits')
+        .push({ timestamp: firebase.database.ServerValue.TIMESTAMP })
+        .then(() => console.log('Visita registrada'))
+        .catch(e => console.error('Error al registrar visita:', e));
     }
 
-    // 4) Llama a registrarVisita() en cada carga de la página
+    // 4) Llama a registrarVisita() al cargar la página
     window.addEventListener('load', registrarVisita);
   </script>
-  <!-- Tu lógica del juego -->
-  <script src="main.js"></script>
+
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <h1>Juego de los Cuatro Caballos</h1>
 
@@ -50,5 +49,8 @@
   <div id="board"></div>
   <button id="resetBtn" style="margin-top: 10px; padding: 10px 20px;">Reiniciar</button>
   <div id="message" style="margin-top: 20px; font-size: 24px; color: green;"></div>
+
+  <!-- Lógica del juego -->
+  <script src="main.js"></script>
 </body>
 </html>
