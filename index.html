@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <title>Juego de los Cuatro Caballos</title>
-
-  <!-- Firebase SDKs: App & Realtime Database -->
   <script src="https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.7.3/firebase-database.js"></script>
-  
   <script>
-    // 1) Reemplaza estos valores con la configuración de tu proyecto Firebase:
     const firebaseConfig = {
       apiKey: "TU_API_KEY",
       authDomain: "TU_PROYECTO.firebaseapp.com",
@@ -19,53 +15,34 @@
       messagingSenderId: "TU_MESSAGING_SENDER_ID",
       appId: "TU_APP_ID"
     };
-
-    // 2) Inicializa Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
-    // 3) Función para registrar cada visita
     function registrarVisita() {
       db.ref('visits')
         .push({ timestamp: firebase.database.ServerValue.TIMESTAMP })
         .then(() => console.log('Visita registrada'))
         .catch(e => console.error('Error al registrar visita:', e));
     }
-
-    // 4) Llama a registrarVisita() al cargar la página
     window.addEventListener('load', registrarVisita);
   </script>
-
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
   <h1>Juego de los Cuatro Caballos</h1>
-
   <label for="boardSize">Tamaño del tablero (mínimo 3): </label>
   <input type="number" id="boardSize" min="3" value="3" />
   <button id="changeSizeBtn">Cambiar tamaño</button>
-
   <div id="board"></div>
   <button id="resetBtn" style="margin-top: 10px; padding: 10px 20px;">Reiniciar</button>
   <div id="message" style="margin-top: 20px; font-size: 24px; color: green;"></div>
-
-  <!-- Lógica del juego -->
   <script src="main.js"></script>
   <!DOCTYPE html>
 <html>
 <head>
   <title>Mi Página en GitHub Pages</title>
-  <!-- Otros head elements como meta tags, links a CSS, etc. -->
-
-  <!-- ¡Importante! Carga primero las librerías de Firebase -->
-  <!-- Puedes usar las versiones más recientes si lo prefieres. Estas son las "compat" para facilitar la integración. -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics-compat.js"></script>
-  <!-- Asegúrate de que las URLs de los scripts son correctas y accesibles -->
-
   <script>
-    // Tu configuración de Firebase (¡la que me acabas de dar!):
     const firebaseConfig = {
       apiKey: "AIzaSyD_y_iZbXs8eyUUoCWpYT2JG1V6alqW-Qc",
       authDomain: "sample-firebase-ai-app-2040e.firebaseapp.com",
@@ -73,36 +50,15 @@
       storageBucket: "sample-firebase-ai-app-2040e.firebasestorage.app",
       messagingSenderId: "1062384886167",
       appId: "1:1062384886167:web:694f1e5bcf8c44da0ea4d2"
-      // ¡IMPORTANTE! FALTA EL measurementId AQUÍ.
-      // DEBES OBTENERLO DE LA CONSOLA DE FIREBASE PARA QUE ANALYTICS FUNCIONE.
-      // measurementId: "G-XXXXXXXXXX" // Debe ser algo como esto
     };
-
-    // Inicializa Firebase
     const app = firebase.initializeApp(firebaseConfig);
-
-    // Inicializa Analytics
-    // Esto solo funcionará si has añadido el measurementId a tu firebaseConfig
     const analytics = firebase.analytics();
-
-    // ¡Listo! Google Analytics ahora debería estar escuchando por vistas de página automáticas.
-    // Si necesitas loguear otros eventos manualmente, puedes usar la variable 'analytics'.
-    // Por ejemplo:
-    // firebase.analytics().logEvent('mi_evento_personalizado');
-
   </script>
-
 </head>
 <body>
-
-  <!-- El contenido de tu página -->
   <h1>¡Hola desde mi página de GitHub Pages!</h1>
   <p>Con este código, las visitas a esta página deberían registrarse en Google Analytics.</p>
-
-  <!-- Tus otros scripts si los tienes -->
-
 </body>
 </html>
-
 </body>
 </html>
