@@ -2,7 +2,6 @@ let boardSize = 3;
 let board = [];
 let goalBoard = [];
 let selected = null;
-
 function generateBoard(size) {
   let newBoard = [];
   for (let r = 0; r < size; r++) {
@@ -17,7 +16,6 @@ function generateBoard(size) {
   newBoard[size - 1][size - 1] = 'W';
   return newBoard;
 }
-
 function generateGoalBoard(size) {
   let newBoard = [];
   for (let r = 0; r < size; r++) {
@@ -32,7 +30,6 @@ function generateGoalBoard(size) {
   newBoard[size - 1][size - 1] = 'B';
   return newBoard;
 }
-
 function boardsEqual(b1, b2) {
   for (let r = 0; r < boardSize; r++) {
     for (let c = 0; c < boardSize; c++) {
@@ -41,7 +38,6 @@ function boardsEqual(b1, b2) {
   }
   return true;
 }
-
 function drawBoard() {
   const boardDiv = document.getElementById('board');
   let html = '<table>';
@@ -63,16 +59,13 @@ function drawBoard() {
     document.getElementById('message').textContent = '';
   }
 }
-
 function isValidLMove(from, to) {
   const dx = Math.abs(from.row - to.row);
   const dy = Math.abs(from.col - to.col);
   return (dx === 2 && dy === 1) || (dx === 1 && dy === 2);
 }
-
 function handleClick(row, col) {
   const cell = board[row][col];
-
   if (selected) {
     if (cell === '' && isValidLMove(selected, { row, col })) {
       board[row][col] = board[selected.row][selected.col];
